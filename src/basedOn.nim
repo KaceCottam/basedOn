@@ -1,15 +1,9 @@
 import macros
 
 ## usage:
-  ## basedOn( base: some object or tuple ):
-  ##   p1: object variable = some value
-  ##   p2: another object variable = some other value
-## converts into
-  ## block:
-  ##   var result = base
-  ##   result.p1 = some value
-  ##   result.p2 = some other value
-  ##   result
+## basedOn( baseObj ):
+##   p1 = expression
+##   p2 = expression
 macro basedOn*(head, body: untyped): untyped =
   head.expectKind(nnkIdent)
   body.expectKind(nnkStmtList)
