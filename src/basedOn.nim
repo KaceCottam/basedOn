@@ -7,27 +7,27 @@ import macros
 macro basedOn*(head, body: untyped): untyped =
   head.expectKind(nnkIdent)
   body.expectKind(nnkStmtList)
-  var modified = 
-      nnkStmtList.newTree(
-        nnkVarSection.newTree(
-          nnkIdentDefs.newTree(
-            newIdentNode("result"),
-            newEmptyNode(),
-            head
-          )
-        )
+  var modified =
+    nnkStmtList.newTree(
+      nnkVarSection.newTree(
+        nnkIdentDefs.newTree(
+          newIdentNode("result"),
+          newEmptyNode(),
+          head
       )
+    )
+    )
 
   for assignment in body:
     assignment.expectKind(nnkAsgn)
     modified.add(
       nnkAsgn.newTree(
         nnkDotExpr.newTree(
-          newIdentNode("result"), 
+          newIdentNode("result"),
           assignment[0]
-        ),
-        assignment[1]
-      )
+      ),
+      assignment[1]
+    )
     )
 
   modified.add(newIdentNode("result"))
@@ -35,5 +35,5 @@ macro basedOn*(head, body: untyped): untyped =
       nnkBlockStmt.newTree(
         newEmptyNode(),
         modified
-      )
-    ) 
+    )
+  )
